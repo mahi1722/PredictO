@@ -1,11 +1,10 @@
 import pandas as pd
-import numpy as np
-import streamlit as st
 import requests
-from streamlit_lottie import st_lottie  # importing package for animation
-from sklearn.svm import SVC
+import streamlit as st
 from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
+from streamlit_lottie import st_lottie  # importing package for animation
 
 st.set_page_config(page_title="PredictO", layout="wide")
 
@@ -66,6 +65,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 svm = SVC()
 svm.fit(X_train, y_train)
 
+# Calculate accuracy for training data
+train_predictions = svm.predict(X_train)
+train_accuracy = accuracy_score(y_train, train_predictions) * 100
+
 # -------------Taking Inputs Section-----------------
 
 with st.container():
@@ -75,15 +78,16 @@ with st.container():
     col1, col2, col3 = st.columns((3, 4, 3))
     with col2:
         # Input fields
-        bmi = st.number_input("BMI", min_value=0.0, max_value=60.0, value=0.0)
+        height = st.number_input("Height(in centimeters)", min_value=0.0, max_value=300.0, value=0.0)
+        weight = st.number_input("Weight(in kilograms)", min_value=0.0, max_value=600.0, value=0.0)
         glucose = st.number_input("Glucose Level", min_value=0, max_value=200, value=0)
-        pregnancies = st.number_input("Number of Pregnancies", min_value=0, max_value=10, value=0)
+        pregnancies = st.number_input("Number of Pregnancies", min_value=0, max_value=20, value=0)
         age = st.number_input("Age", min_value=0, max_value=120, value=0)
 
 
         def user_report():
             user_report_data = {
-                'BMI': bmi,
+                'BMI': weight / (height ** 2),
                 'Glucose': glucose,
                 'Pregnancies': pregnancies,
                 'Age': age
@@ -99,4 +103,9 @@ with st.container():
             user_result = svm.predict(user_data)
 
             # Display the prediction result
-            st.write(f"Diabetes Prediction: {user_result}")
+            if user_result[0] == 0:
+                st.write("Diabetes Prediction: You are not Diabetic")
+                st.write(f"Training Data Accuracy: {train_accuracy:.2f}%")
+            else:
+                st.write("Diabetes Prediction: You are Diabetic")
+                st.write(f"Training Data Accuracy: {train_accuracy:.2f}%")
