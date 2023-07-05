@@ -2,7 +2,7 @@
 Aiding health management and disease prediction
 
 # Requirements
-Intall the till needed packages using tth command :
+Install the till-needed packages using the command :
          pip install -r requirements. txt
          
 # Thank you!!
