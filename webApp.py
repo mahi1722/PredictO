@@ -1,3 +1,4 @@
+import math
 import pandas as pd
 import requests
 import streamlit as st
@@ -17,7 +18,9 @@ def load_lottieurl(url: str):
 
 
 # -------------ASSETS-------------
-lottie_files = load_lottieurl('https://assets8.lottiefiles.com/packages/lf20_duLkH4dmdC.json')
+lottie_files1 = load_lottieurl('https://lottie.host/c44be9f7-2309-4573-bc2f-1735c2d0581d/JkZN9a1nq8.json')
+lottie_files2 = load_lottieurl('https://lottie.host/805c4752-59c1-4bb8-bbed-ee08a2fa18fe/y2uZUuipJB.json')
+lottie_files3 = load_lottieurl('https://lottie.host/198f917d-41bf-47b4-a8ed-6c7838f693d0/G6AU3k0wqA.json')
 
 # -------------Header Section-----------------
 st.subheader("WELCOME TO PREDICTO :wave:")
@@ -49,7 +52,7 @@ with st.container():
             """)
 
     with right_column:
-        st_lottie(lottie_files, height=400, key="health")
+        st_lottie(lottie_files1, height=300, key="health")
 
 # -------------Loading dataset-----------------
 df = pd.read_csv("diabetesv2.0.csv")
@@ -75,11 +78,18 @@ with st.container():
     st.write("---")
     st.header("Let's get you Checked!")
     st.write("##")
-    col1, col2, col3 = st.columns((3, 4, 3))
-    with col2:
+    col1, col2, col3, = st.columns((3, 1, 3))
+    with col1:
         # Input fields
+        gender = st.radio("Select your gender", ("Male", "Female"))
         height = st.number_input("Height(in centimeters)", min_value=0.0, max_value=300.0, value=0.0)
         weight = st.number_input("Weight(in kilograms)", min_value=0.0, max_value=600.0, value=0.0)
+
+    with col3:
+        st.write(
+            """
+            - #### Use your Beato Sensor and fill in the Glucose value.
+            """)
         glucose = st.number_input("Glucose Level", min_value=0, max_value=200, value=0)
         pregnancies = st.number_input("Number of Pregnancies", min_value=0, max_value=20, value=0)
         age = st.number_input("Age", min_value=0, max_value=120, value=0)
@@ -96,16 +106,48 @@ with st.container():
             return report_data
 
 
+        # Initialize user_result outside the if block
+        user_result = None
+
         # Button to predict
         if st.button("Predict"):
             # Get user input and make prediction
             user_data = user_report()
             user_result = svm.predict(user_data)
 
-            # Display the prediction result
+# Display the prediction result
+with st.container():
+    st.write("---")
+    l_column, r_column, end_column = st.columns((3, 3, 3))
+    with r_column:
+        if user_result is not None:
             if user_result[0] == 0:
-                st.write("Diabetes Prediction: You are not Diabetic")
+                st_lottie(lottie_files2, height=300, key="healthy")
+                st.write(" ##### Prediction: You are not Diabetic")
                 st.write(f"Training Data Accuracy: {train_accuracy:.2f}%")
             else:
-                st.write("Diabetes Prediction: You are Diabetic")
+                st_lottie(lottie_files3, height=300, key="unhealthy")
+                st.write(" ##### Prediction: You are Diabetic")
                 st.write(f"Training Data Accuracy: {train_accuracy:.2f}%")
+
+with st.container():
+    st.write("---")
+    left_column, right_column = st.columns(2, )
+    with left_column:
+        st.header("Additional Diagnostic")
+        st.write("##")
+
+        # Calculating Basal Metabolic Rate
+
+        if gender == "male":
+            bmr = 10 * weight + 6.25 * height - 5 * age + 5
+
+            st.write("Your Basal Metabolic Rate(BMR) is ", bmr, 'calories/day')
+
+        else:
+            bmr = 10 * weight + 6.25 * height - 5 * age - 161
+
+            st.write("Your Basal Metabolic Rate(BMR) is ", bmr, 'calories/day')
+
+
+
