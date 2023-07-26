@@ -1,4 +1,4 @@
-import math
+from chat import chat
 import pandas as pd
 import requests
 import streamlit as st
@@ -129,25 +129,56 @@ with st.container():
                 st_lottie(lottie_files3, height=300, key="unhealthy")
                 st.write(" ##### Prediction: You are Diabetic")
                 st.write(f"Training Data Accuracy: {train_accuracy:.2f}%")
+if user_result is not None:
+    with st.container():
+        st.write("---")
+        left_column, mid_column, right_column = st.columns((2, 6, 2))
+        with mid_column:
+            st.header("Additional Diagnostic")
+            st.write("##")
+            if user_result is None:
+                st.write("  ")
+            else:
 
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2, )
-    with left_column:
-        st.header("Additional Diagnostic")
-        st.write("##")
+                # Calculating Basal Metabolic Rate
+                if gender == "male":
+                    bmr = 10 * weight + 6.25 * height - 5 * age + 5
 
-        # Calculating Basal Metabolic Rate
+                    st.write("Your Basal Metabolic Rate(BMR) is ", bmr, 'calories/day')
 
-        if gender == "male":
-            bmr = 10 * weight + 6.25 * height - 5 * age + 5
+                else:
+                    bmr = 10 * weight + 6.25 * height - 5 * age - 161
 
-            st.write("Your Basal Metabolic Rate(BMR) is ", bmr, 'calories/day')
+                    st.write("Your Basal Metabolic Rate(BMR) is ", bmr, 'calories/day')
 
-        else:
-            bmr = 10 * weight + 6.25 * height - 5 * age - 161
+            st.write("##")
+            st.write("##")
 
-            st.write("Your Basal Metabolic Rate(BMR) is ", bmr, 'calories/day')
+            try:
+                bmi = weight / (height ** 2)
+            except ZeroDivisionError:
+                bmi = ""
 
+            query = ''
 
+            if user_result is not None:
+                if user_result[0] == 0:
+                    query = f"""I am a {gender}, {age} years old having a BMI of {bmi} kg/square meters and
+                            BMR of {bmr} calories/day, I have had {pregnancies} pregnancies and my current glucose
+                            levels are {glucose} mg/dL and I am non diabetic, please suggest me health prescriptions
+                            to keep myself healthy and also to keep a check on my fitness condition based on the 
+                            parameters I have mentioned. Give suggestions in points, avoid using any other comprehension 
+                            other than what is asked for and keep it user friendly. """
+                else:
+                    query = f"""I am a {gender}, {age} years old having a BMI of {bmi} kg/square meters and
+                                            BMR of {bmr} calories/day, I have had {pregnancies} pregnancies and my 
+                                            current glucose levels are {glucose} mg/dL and I am diabetic, please 
+                                            suggest me health prescriptions to keep myself healthy and also to keep a 
+                                            check on my fitness condition based on the parameters I have mentioned. 
+                                            Give suggestions in points, avoid using any other comprehension other 
+                                            than what is asked for and keep it user friendly."""
+            if user_result is not None:
+                data = chat(query)
 
+                # Printing the data in a box using markdown
+                st.markdown(f"```markdown\n{data}\n```")
