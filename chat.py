@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "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"  # My key don't over use
+openai.api_key = "OPENAI_API_KEY"  # Put your own generated openai-api-key
 
 
 def chat(query):
