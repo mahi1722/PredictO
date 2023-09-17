@@ -8,14 +8,14 @@ Aiding health management and disease prediction. PredictO is a healthcare applic
 - This application is integrated with an IOT device responsible for measuring real-time blood glucose levels.
 - PredictO evaluates the data and returns not only the prediction but also a good suggestion on how to keep up a good fitness for every individual.
 
-Chat-GPT is already integrated in the dashboard to help every individual to take care of its health. Keep your health monitored with PredictO.😊
+Chat-GPT is already integrated in the dashboard to help user with further insights regarding results.😊
 
 # Model Description
 
 We used SVM(Support Vector Machine) machine-learning algorithm on the dataset that was uploaded to the repository (diabetesv2.0).
 This dataset contains a minimum number of parameters that are required to do predictions for diabetes.
 
-### SVM works well for us and the dataset and helps us with an accuracy of approximately: 77.27%
+### The used machine learning model in this project is SVM at **77.27%** accuracy.
 
 Here are some performance metrics for our model:
 
