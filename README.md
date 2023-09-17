@@ -2,7 +2,7 @@
 
 Aiding health management and disease prediction. PredictO is a healthcare application that uses Machine Learning algorithms to predict whether a person is diabetic or not.
 
-## WHY is it unique and different from other diabetes prediction models ?
+## How is it unique and different from other diabetes prediction models ?
 
 - It uses only the information from the user which he/she can fill in real-time.
 - This application is integrated with an IOT device responsible for measuring real-time blood glucose levels.
@@ -34,17 +34,14 @@ Here are some performance metrics for our model:
 
 # Requirements
 Install the till-needed packages using the command :
-``` pip install -r requirements.txt ```
+```bash 
+pip install -r requirements.txt
+```
 
 # How to run the application
 
-After installing all the dependencies, type 'streamlit run webApp.py' in the terminal.
-It is that simple.✌️
-The application will open on your default browser (Chrome recommended!).
-
-
-
-
-         
-Made for you 👍         
-Thank you!!
+After installing all the dependencies, open a terminal window in project directory and run following command :
+```bash
+streamlit run webApp.py
+```
+The application will deploy a webapp on localhost which then can be accesed through web browsers (Chrome recommended!) by any client on that network.
