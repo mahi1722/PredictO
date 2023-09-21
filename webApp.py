@@ -7,7 +7,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from streamlit_lottie import st_lottie  # importing package for animation
 
-st.set_page_config(page_title="PredictO", layout="wide")
+st.set_page_config(page_title="PredictO", layout="wide", page_icon=":pill:")
 
 
 def load_lottieurl(url: str):
