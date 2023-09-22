@@ -27,8 +27,7 @@ Here are some performance metrics for our model:
 
 - SVM F1 Score: 0.6464646464646464
 
-![Confusion matrix](https://github.com/mahi1722/PredictO/assets/82094424/00100b58-42aa-45f7-ad62-de3fa64d44c2)
-![Precision recall and F1 score](https://github.com/mahi1722/PredictO/assets/82094424/56c24a02-817b-4a4c-94aa-7820d1ae095a)
+## Performance Metrices :
 
 
 
