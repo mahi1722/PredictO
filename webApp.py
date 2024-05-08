@@ -1,6 +1,7 @@
 from chat import chat
 import pandas as pd
 import requests
+import serial
 import streamlit as st
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -15,6 +16,14 @@ def load_lottieurl(url: str):
     if r.status_code != 200:
         return None
     return r.json()
+
+def non_invasive_monitor(comport='COM4', baudrate=115200, timeout=0.1):  #Serial Communication
+
+    ser = serial.Serial()         # 1/timeout is the frequency at which the port is read
+    while True:
+        data = ser.readline().decode().strip()
+        if data:
+            return data
 
 
 # -------------ASSETS-------------
@@ -88,9 +97,12 @@ with st.container():
     with col3:
         st.write(
             """
-            - #### Use your Beato Sensor and fill in the Glucose value.
+            - #### Use the connected non-invasive monitor to get your blood glucose reading.
             """)
-        glucose = st.number_input("Glucose Level", min_value=0, max_value=200, value=0)
+        reading = non_invasive_monitor()
+        st.warning("Reading Recorded successfully", icon= "✅")
+        # glucose = st.number_input("Glucose Level", min_value=0, max_value=200, value=0)
+        glucose = reading
         pregnancies = st.number_input("Number of Pregnancies", min_value=0, max_value=20, value=0)
         age = st.number_input("Age", min_value=0, max_value=120, value=0)
 
