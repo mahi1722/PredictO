@@ -93,16 +93,22 @@ with st.container():
         gender = st.radio("Select your gender", ("Male", "Female"))
         height = st.number_input("Height(in centimeters)", min_value=0.0, max_value=300.0, value=0.0)
         weight = st.number_input("Weight(in kilograms)", min_value=0.0, max_value=600.0, value=0.0)
+        bp = st.number_input("Blood Pressure", min_value=0.0, max_value=600.0, value=0.0)
+        hemoglobin = st.number_input("Hemoglobin", min_value=0.0, max_value=600.0, value=0.0)
+        wc = st.number_input("Waist Circumference", min_value=0.0, max_value=300.0, value=0.0)
+
+
 
     with col3:
         st.write(
             """
             - #### Use the connected non-invasive monitor to get your blood glucose reading.
             """)
-        reading = non_invasive_monitor()
-        st.warning("Reading Recorded successfully", icon= "✅")
-        # glucose = st.number_input("Glucose Level", min_value=0, max_value=200, value=0)
-        glucose = reading
+        # reading = non_invasive_monitor()
+        # glucose = reading
+        st.warning("Reading Recorded successfully", icon="✅")
+        glucose = st.number_input("Glucose Level", min_value=0, max_value=200, value=0)
+        cholestrol = st.number_input("LDL - Cholesterol", min_value=0, max_value=200, value=0)
         pregnancies = st.number_input("Number of Pregnancies", min_value=0, max_value=20, value=0)
         age = st.number_input("Age", min_value=0, max_value=120, value=0)
 
